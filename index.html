@@ -1,0 +1,510 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Princess Fashion Studio 2D</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg,#ffd8ee,#e9ddff);
+  color: #a12d78;
+}
+.app { max-width: 920px; margin: auto; padding: 14px; }
+h1 { text-align:center; color:#db3990; font-size:clamp(21px,4vw,30px); margin:12px 0 5px; }
+.subtitle { text-align:center; font-size:13px; margin-bottom:15px; }
+.layout { display:grid; grid-template-columns:1fr 1fr; gap:13px; }
+.stage,.panel {
+  border:4px solid white;
+  border-radius:23px;
+  overflow:hidden;
+  background:#fff6fc;
+  box-shadow:0 6px 18px #bd80aa55;
+}
+.stage { height:570px; background:radial-gradient(circle,#fffaff,#f7cce7); }
+.stage svg { display:block; width:100%; height:100%; }
+.panel { padding:14px; }
+.tabs,.options,.actions { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+button { cursor:pointer; font-family:inherit; }
+.tab {
+  background:#f9d7ec; color:#a12d78;
+  border:0; border-radius:12px;
+  padding:12px 3px; font-weight:bold;
+}
+.tab.active { background:#eb4599; color:white; }
+h3 { font-size:15px; margin:17px 0 10px; }
+.opt {
+  background:white; color:#a12d78;
+  border:2px solid #f2c8de; border-radius:12px;
+  min-height:58px; padding:8px 3px; font-size:12px;
+}
+.opt.selected { background:#ffe1f0; border-color:#eb4599; font-weight:bold; }
+.palette { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin:12px 0; }
+.swatch {
+  width:37px; height:37px; border-radius:50%;
+  border:3px solid white; box-shadow:0 2px 6px #ad7a9b77;
+}
+.swatch.selected { outline:3px solid #eb4599; }
+.actions { margin-top:18px; }
+.action {
+  background:#eb4599; color:white; border:0;
+  border-radius:12px; padding:13px 3px;
+  font-size:12px; font-weight:bold;
+}
+.action:nth-child(2) { background:#a47ad8; }
+.action:nth-child(3) { background:#f18dbd; }
+#message { text-align:center; font-size:12px; margin-top:15px; }
+@media(max-width:650px) {
+  .layout { grid-template-columns:1fr; }
+  .stage { height:490px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+<h1>🎀 Princess Fashion Studio 2D 👑</h1>
+<div class="subtitle">Dress Up & Makeup • Create Your Dream Princess ✨</div>
+
+<div class="layout">
+<div class="stage">
+<svg viewBox="0 0 340 510" xmlns="http://www.w3.org/2000/svg">
+  <rect width="340" height="510" fill="#ffe6f4"/>
+  <circle cx="170" cy="235" r="156" fill="white" opacity=".38"/>
+  <text x="18" y="75" font-size="25">✨</text>
+  <text x="282" y="135" font-size="24">💗</text>
+  <text x="20" y="400" font-size="25">🌸</text>
+  <ellipse cx="170" cy="494" rx="112" ry="11" fill="#c48ba8" opacity=".25"/>
+
+  <!-- RAMBUT BELAKANG -->
+  <path id="backHair"
+    d="M108 156 Q94 72 170 68 Q247 70 232 155 Q249 255 223 320 L117 320 Q91 250 108 156Z"
+    fill="#e8bb73"/>
+
+  <!-- KAKI -->
+  <g id="legs">
+    <path d="M143 316 L143 452 Q144 462 157 462 L165 462 L168 316Z"
+      fill="#f5cbb5"/>
+    <path d="M173 316 L176 462 L186 462 Q199 462 199 452 L197 316Z"
+      fill="#f5cbb5"/>
+  </g>
+
+  <!-- SEPATU -->
+  <g id="shoes">
+    <path id="shoeLeft"
+      d="M143 448 L166 448 L170 477 Q153 487 137 477Z"
+      fill="#ee78b1" stroke="#c64d91" stroke-width="2"/>
+    <path id="shoeRight"
+      d="M176 448 L199 448 L203 477 Q187 487 172 477Z"
+      fill="#ee78b1" stroke="#c64d91" stroke-width="2"/>
+    <circle cx="154" cy="454" r="5" fill="#fff0ad"/>
+    <circle cx="188" cy="454" r="5" fill="#fff0ad"/>
+  </g>
+
+  <!-- LEHER -->
+  <path d="M151 222 L189 222 L194 279 L146 279Z" fill="#f5cbb5"/>
+
+  <!-- TANGAN -->
+  <path d="M137 269 Q115 262 105 300 L77 396 Q75 411 87 412 Q98 408 100 393 L145 303Z"
+    fill="#f5cbb5"/>
+  <path d="M203 269 Q225 262 235 300 L263 396 Q265 411 253 412 Q242 408 240 393 L195 303Z"
+    fill="#f5cbb5"/>
+
+  <!-- DRESS -->
+  <path id="skirt"
+    d="M143 320 Q109 362 45 467 Q170 492 295 467 Q231 362 197 320Z"
+    fill="#ff8dc4"/>
+  <path id="bodice"
+    d="M139 269 Q170 285 201 269 L210 320 Q170 339 130 320Z"
+    fill="#ff8dc4"/>
+  <path d="M138 272 Q170 293 202 272" fill="none"
+    stroke="#fff0fa" stroke-width="5"/>
+  <path d="M130 320 Q170 335 210 320" fill="none"
+    stroke="#fff0fa" stroke-width="6"/>
+  <circle cx="170" cy="322" r="8" fill="#ffe8a2"/>
+  <circle cx="170" cy="322" r="4" fill="#ff86b8"/>
+
+  <!-- WAJAH CUTE -->
+  <ellipse cx="170" cy="164" rx="65" ry="77" fill="#f5cbb5"/>
+  <ellipse cx="107" cy="167" rx="9" ry="14" fill="#f5cbb5"/>
+  <ellipse cx="233" cy="167" rx="9" ry="14" fill="#f5cbb5"/>
+
+  <!-- ALIS -->
+  <path d="M128 143 Q143 136 157 143"
+    stroke="#a87867" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M183 143 Q197 136 212 143"
+    stroke="#a87867" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+  <!-- EYESHADOW -->
+  <ellipse id="shadowL" cx="144" cy="160" rx="19" ry="11"
+    fill="#d5a4ed" opacity=".55"/>
+  <ellipse id="shadowR" cx="196" cy="160" rx="19" ry="11"
+    fill="#d5a4ed" opacity=".55"/>
+
+  <!-- MATA BULAT -->
+  <ellipse cx="144" cy="171" rx="17" ry="16" fill="white"/>
+  <ellipse cx="196" cy="171" rx="17" ry="16" fill="white"/>
+  <ellipse cx="144" cy="172" rx="11" ry="13" fill="#8b6caa"/>
+  <ellipse cx="196" cy="172" rx="11" ry="13" fill="#8b6caa"/>
+  <ellipse cx="144" cy="173" rx="7" ry="9" fill="#332842"/>
+  <ellipse cx="196" cy="173" rx="7" ry="9" fill="#332842"/>
+  <circle cx="140" cy="166" r="5" fill="white"/>
+  <circle cx="192" cy="166" r="5" fill="white"/>
+  <circle cx="149" cy="179" r="2" fill="white"/>
+  <circle cx="201" cy="179" r="2" fill="white"/>
+
+  <!-- EYELINER -->
+  <path id="linerL" d="M127 167 Q143 152 161 167"
+    stroke="#4d354e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path id="linerR" d="M179 167 Q197 152 213 167"
+    stroke="#4d354e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+  <!-- BULU MATA PENDEK -->
+  <path d="M130 162 L127 159 M135 158 L133 155
+           M210 162 L213 159 M205 158 L207 155"
+    stroke="#4d354e" stroke-width="1.7"
+    stroke-linecap="round" fill="none"/>
+
+  <!-- BLUSH -->
+  <ellipse id="blushL" cx="125" cy="201" rx="18" ry="10"
+    fill="#ff93b4" opacity=".5"/>
+  <ellipse id="blushR" cx="215" cy="201" rx="18" ry="10"
+    fill="#ff93b4" opacity=".5"/>
+
+  <!-- HIDUNG DAN BIBIR -->
+  <path d="M169 189 Q173 192 169 194"
+    fill="none" stroke="#d9a28e" stroke-width="2"/>
+  <path id="lips"
+    d="M157 216 Q170 226 183 216 Q170 231 157 216Z"
+    fill="#e9769d"/>
+
+  <!-- RAMBUT DEPAN -->
+  <path id="frontHair"
+    d="M107 156 Q100 88 145 77 Q205 52 233 120 Q221 143 208 145 Q185 128 174 110 Q148 143 107 156Z"
+    fill="#e8bb73"/>
+
+  <!-- MAHKOTA -->
+  <path d="M131 96 L124 65 L149 78 L170 51 L191 78 L216 65 L209 96Z"
+    fill="#f5cf72" stroke="#d8a34b" stroke-width="3"/>
+  <circle cx="170" cy="80" r="8" fill="#ff83bd"/>
+  <circle cx="148" cy="86" r="5" fill="#a7dcff"/>
+  <circle cx="192" cy="86" r="5" fill="#a7dcff"/>
+</svg>
+</div>
+
+<div class="panel">
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('dress',this)">👗 Dress</button>
+    <button class="tab" onclick="switchTab('hair',this)">💇 Hair</button>
+    <button class="tab" onclick="switchTab('makeup',this)">💄 Makeup</button>
+  </div>
+  <div id="controls"></div>
+
+  <div class="actions">
+    <button class="action" onclick="randomLook()">🎲 Random</button>
+    <button class="action" onclick="resetLook()">🔄 Reset</button>
+    <button class="action" onclick="finishLook()">👑 Finish</button>
+  </div>
+  <p id="message">✨ Create your dream princess! ✨</p>
+</div>
+</div>
+</div>
+
+<script>
+// DATA PILIHAN WARNA
+const dressColors = [
+  "#ff8dc4","#f26b83","#b28bea","#87c6f5",
+  "#f2d27d","#85d9b5","#ffffff","#47405c",
+  "#ffb499","#cfa4f4","#8ed7df","#db5b9b"
+];
+
+const hairColors = [
+  "#e8bb73","#86543c","#302837",
+  "#f39ac9","#a585df","#d7d4e4",
+  "#bd6853","#f4e4b3","#8ebee2"
+];
+
+const makeupColors = [
+  "#f28ab5","#e44d75","#a67ad9",
+  "#78b8e8","#79d7bc","#f4cb70",
+  "#d87aaf","#a7525b","#25213c",
+  "#f1a28d","#ffffff","#e46cba"
+];
+
+const shoeColors = [
+  "#ee78b1","#ffffff","#e7bf69",
+  "#a47bdb","#83bde9","#40344e"
+];
+
+const dressStyles = [
+  "Ball Gown","A-Line","Mermaid",
+  "Short Princess","Layered","Royal Train",
+  "Fairy Dress","Heart Gown","Ruffle Dress"
+];
+
+const hairStyles = [
+  "Long Waves","Straight","Ponytail",
+  "Bun","Bob","Side Bangs"
+];
+
+const makeupTypes = [
+  "Eyeshadow","Lipstick","Blush","Eyeliner"
+];
+
+// BENTUK ROK
+const skirts = [
+  "M143 320 Q109 362 45 467 Q170 492 295 467 Q231 362 197 320Z",
+  "M143 320 L93 467 Q170 480 247 467 L197 320Z",
+  "M143 320 Q130 374 143 410 L83 467 Q170 489 257 467 L197 410 Q210 374 197 320Z",
+  "M143 320 L105 390 Q170 413 235 390 L197 320Z",
+  "M143 320 Q112 352 76 467 Q170 490 264 467 Q228 352 197 320Z",
+  "M143 320 Q100 365 28 475 Q170 494 312 475 Q240 365 197 320Z",
+  "M143 320 Q115 363 95 432 Q170 461 245 432 Q225 363 197 320Z",
+  "M143 320 Q110 354 61 466 Q170 490 279 466 Q230 354 197 320Z",
+  "M143 320 Q100 365 70 467 Q170 490 270 467 Q240 365 197 320Z"
+];
+
+// MODEL RAMBUT BELAKANG
+const backs = [
+  "M108 156 Q94 72 170 68 Q247 70 232 155 Q249 255 223 320 L117 320 Q91 250 108 156Z",
+  "M108 156 Q94 72 170 68 Q247 70 232 155 L232 326 L108 326Z",
+  "M108 156 Q94 72 170 68 Q247 70 232 155 Q270 228 239 325 L216 325 L206 150Z",
+  "M112 155 Q94 74 170 70 Q246 75 228 155 L216 190 L124 190Z",
+  "M108 156 Q94 72 170 68 Q247 70 232 155 L232 225 Q170 252 108 225Z",
+  "M108 156 Q94 72 170 68 Q247 70 232 155 Q249 240 222 300 L118 300Z"
+];
+
+// MODEL RAMBUT DEPAN
+const fronts = [
+  "M107 156 Q100 88 145 77 Q205 52 233 120 Q221 143 208 145 Q185 128 174 110 Q148 143 107 156Z",
+  "M107 154 Q100 85 170 72 Q239 83 233 154 Q208 125 170 103 Q144 130 107 154Z",
+  "M107 156 Q104 83 170 71 Q237 82 233 156 Q205 127 170 107 Q145 134 107 156Z",
+  "M107 152 Q104 91 170 78 Q233 91 233 152 Q201 126 170 107 Q139 126 107 152Z",
+  "M107 155 Q101 85 170 73 Q237 85 233 155 Q204 121 170 111 Q136 131 107 155Z",
+  "M107 160 Q100 83 170 70 Q237 82 233 155 Q199 116 160 102 Q150 146 107 160Z"
+];
+
+// DATA KONDISI APLIKASI
+const defaultState = {
+  dressStyle:0,
+  dressColor:0,
+  hairStyle:0,
+  hairColor:0,
+  shoeColor:0,
+  eyeshadow:2,
+  lipstick:1,
+  blush:0,
+  eyeliner:8
+};
+
+let state = {...defaultState};
+let currentTab = "dress";
+let makeupType = "Eyeshadow";
+
+// MENGUBAH ATRIBUT GAMBAR SVG
+function setAttr(id, name, value) {
+  document.getElementById(id).setAttribute(name,value);
+}
+
+// MEMPERBARUI TAMPILAN PRINCESS
+function updateAll() {
+  // Dress
+  setAttr("skirt","fill",dressColors[state.dressColor]);
+  setAttr("bodice","fill",dressColors[state.dressColor]);
+  setAttr("skirt","d",skirts[state.dressStyle]);
+
+  // Rambut
+  setAttr("backHair","fill",hairColors[state.hairColor]);
+  setAttr("frontHair","fill",hairColors[state.hairColor]);
+  setAttr("backHair","d",backs[state.hairStyle]);
+  setAttr("frontHair","d",fronts[state.hairStyle]);
+
+  // Sepatu
+  setAttr("shoeLeft","fill",shoeColors[state.shoeColor]);
+  setAttr("shoeRight","fill",shoeColors[state.shoeColor]);
+
+  // Makeup
+  setAttr("shadowL","fill",makeupColors[state.eyeshadow]);
+  setAttr("shadowR","fill",makeupColors[state.eyeshadow]);
+  setAttr("lips","fill",makeupColors[state.lipstick]);
+  setAttr("blushL","fill",makeupColors[state.blush]);
+  setAttr("blushR","fill",makeupColors[state.blush]);
+  setAttr("linerL","stroke",makeupColors[state.eyeliner]);
+  setAttr("linerR","stroke",makeupColors[state.eyeliner]);
+}
+
+// PINDAH MENU
+function switchTab(tab, button) {
+  currentTab = tab;
+  document.querySelectorAll(".tab").forEach(b=>{
+    b.classList.remove("active");
+  });
+  button.classList.add("active");
+  renderControls();
+}
+
+// MEMBUAT JUDUL BAGIAN
+function heading(text) {
+  const h = document.createElement("h3");
+  h.textContent = text;
+  return h;
+}
+
+// MEMBUAT TOMBOL PILIHAN
+function makeChoices(items, selected, callback) {
+  const box = document.createElement("div");
+  box.className = "options";
+
+  items.forEach((name,i)=>{
+    const button = document.createElement("button");
+    button.className = "opt" + (i===selected ? " selected" : "");
+    button.textContent = name;
+    button.onclick = ()=>callback(i);
+    box.appendChild(button);
+  });
+
+  return box;
+}
+
+// MEMBUAT PILIHAN WARNA
+function makePalette(colors, selected, callback) {
+  const box = document.createElement("div");
+  box.className = "palette";
+
+  colors.forEach((color,i)=>{
+    const button = document.createElement("button");
+    button.className = "swatch" + (i===selected ? " selected" : "");
+    button.style.background = color;
+    button.title = "Warna " + (i+1);
+    button.setAttribute("aria-label","Warna "+(i+1));
+    button.onclick = ()=>callback(i);
+    box.appendChild(button);
+  });
+
+  return box;
+}
+
+// MENAMPILKAN KONTROL SESUAI MENU
+function renderControls() {
+  const box = document.getElementById("controls");
+  box.innerHTML = "";
+
+  if(currentTab === "dress") {
+    box.appendChild(heading("👗 Pilih Desain Dress"));
+    box.appendChild(makeChoices(
+      dressStyles,state.dressStyle,i=>{
+        state.dressStyle=i;
+        updateAll();
+        renderControls();
+      }
+    ));
+
+    box.appendChild(heading("🎨 Pilih Warna Dress"));
+    box.appendChild(makePalette(
+      dressColors,state.dressColor,i=>{
+        state.dressColor=i;
+        updateAll();
+        renderControls();
+      }
+    ));
+
+    box.appendChild(heading("👠 Pilih Warna Sepatu"));
+    box.appendChild(makePalette(
+      shoeColors,state.shoeColor,i=>{
+        state.shoeColor=i;
+        updateAll();
+        renderControls();
+      }
+    ));
+  }
+
+  else if(currentTab === "hair") {
+    box.appendChild(heading("💇 Pilih Model Rambut"));
+    box.appendChild(makeChoices(
+      hairStyles,state.hairStyle,i=>{
+        state.hairStyle=i;
+        updateAll();
+        renderControls();
+      }
+    ));
+
+    box.appendChild(heading("🎨 Pilih Warna Rambut"));
+    box.appendChild(makePalette(
+      hairColors,state.hairColor,i=>{
+        state.hairColor=i;
+        updateAll();
+        renderControls();
+      }
+    ));
+  }
+
+  else if(currentTab === "makeup") {
+    box.appendChild(heading("💄 Pilih Jenis Makeup"));
+    box.appendChild(makeChoices(
+      makeupTypes,
+      makeupTypes.indexOf(makeupType),
+      i=>{
+        makeupType=makeupTypes[i];
+        renderControls();
+      }
+    ));
+
+    const key = {
+      Eyeshadow:"eyeshadow",
+      Lipstick:"lipstick",
+      Blush:"blush",
+      Eyeliner:"eyeliner"
+    }[makeupType];
+
+    box.appendChild(heading("🌈 Pilih Warna "+makeupType));
+    box.appendChild(makePalette(
+      makeupColors,state[key],i=>{
+        state[key]=i;
+        updateAll();
+        renderControls();
+      }
+    ));
+  }
+}
+
+// TOMBOL RANDOM
+function randomLook() {
+  state.dressStyle=Math.floor(Math.random()*dressStyles.length);
+  state.dressColor=Math.floor(Math.random()*dressColors.length);
+  state.hairStyle=Math.floor(Math.random()*hairStyles.length);
+  state.hairColor=Math.floor(Math.random()*hairColors.length);
+  state.shoeColor=Math.floor(Math.random()*shoeColors.length);
+
+  ["eyeshadow","lipstick","blush","eyeliner"].forEach(key=>{
+    state[key]=Math.floor(Math.random()*makeupColors.length);
+  });
+
+  updateAll();
+  renderControls();
+  document.getElementById("message").textContent =
+    "🎀 Surprise! Your new princess look is ready!";
+}
+
+// TOMBOL RESET
+function resetLook() {
+  state={...defaultState};
+  updateAll();
+  renderControls();
+  document.getElementById("message").textContent =
+    "✨ Create your dream princess! ✨";
+}
+
+// TOMBOL FINISH
+function finishLook() {
+  document.getElementById("message").textContent =
+    "👑 Princess Makeover Complete! ✨";
+}
+
+// MENJALANKAN APLIKASI
+updateAll();
+renderControls();
+</script>
+</body>
+</html>
